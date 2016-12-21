@@ -85,20 +85,16 @@ class Person:
     for i in d:
       movie = {}
       if "movie" in i:
-        #print i
+        
         movie["title"] = i["movie"]["title"]
         movie["productionYear"] = i["movie"]["productionYear"]
         movie["activity"] = i["activity"]["$"]
         
         if "role" in i:
-          #print ">>>>", i["movie"]["title"], i["movie"]["productionYear"], i["activity"]["$"], i["role"]
-          #filmography.append([i["movie"]["title"], i["movie"]["productionYear"], i["role"], i["activity"]["$"]])
-          
           movie["role"] = i["role"]
         else:
-          #filmography.append([i["movie"]["title"], i["movie"]["productionYear"], "", i["activity"]["$"]])
           movie["role"] = ""
-          
+        
         filmography.append(movie)
     
     return filmography
