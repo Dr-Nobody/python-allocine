@@ -1,5 +1,12 @@
 # CHANGES.txt
 
+
+
+-------------------
+0.4.0 
+  * Use of python-requests, removed AllocineObject, changed to new signature
+-------------------
+
 -------------------
 0.3.0 
   * Use global dict for allocine objects (see AllocineObject._dict)
