@@ -1,12 +1,19 @@
-from AllocineObject import *
+
+from datetime import date
+import datetime
 import Person
+from settings import *
+import requests, time, hashlib, sys, base64, json
+from Review import Review
 
 class Movie:
 
 
   def __init__(self, code):
+    self.parameters = code
+    
     self.code = code["code"]
-
+    
     if "statistics" in code:
       if "userRating" in code["statistics"]:
         self.userRating = code["statistics"]["userRating"]
@@ -49,7 +56,7 @@ class Movie:
       self.actors = "<unknown>"
       
     if "release" in code:
-      d = datetime.strptime(code["release"]["releaseDate"], '%Y-%m-%d')
+      d = datetime.datetime.strptime(code["release"]["releaseDate"], '%Y-%m-%d')
       self.release = d.strftime('%d/%m/%Y')
     else:
       self.release = "<unknown>"
@@ -59,6 +66,7 @@ class Movie:
     else:
       self.link = "<unknown>"
 
+    
     #if "synopsisShort" in code:
     #  self.synopsis = code["synopsisShort"]
     #else:
@@ -66,25 +74,39 @@ class Movie:
   
   
   def __unicode__(self):
-
     return self.title
-    
-    try:
-      return self.title
-    except:
-      try:
-        return self.originalTitle
-      except:
-        return "untitled"
 
-#  def getInfo(self, profile = DEFAULT_PROFILE):
-#    super(Movie, self).getInfo(profile)
-#    if "castMember" in self.__dict__:
-#      castMember = []
-#      for i in self.castMember:
-#        if "person" in i:
-#          code = i["person"]["code"]
-#          i["person"].pop("code")
-#          p = Person.Person(code, **(i["person"]))
-#          castMember.append(self.Participation(i["activity"], p))
-#      self.castMember = castMember
+
+
+  def get_reviewlist(self, count=10):
+    headers = {"User-Agent":"Dalvik/1.6.0 (Linux; U; Android 4.2.2; Nexus 4 Build/JDQ39E)"}
+    url = "http://api.allocine.fr/rest/v3/reviewlist"
+        
+    try:
+        sed = str(date.today().strftime("%Y%m%d"))
+        sig = hashlib.sha1(SECRET_KEY + "partner="+PARTNER_CODE+"&code=" + str(self.code) + "&type=movie&format=json&filter=public&count=" + str(count) + '&sed=' + sed).digest().encode("base64").replace("\n","").replace("+", "%2B").replace("=", "%3D").replace("/", "%2F")
+        url += '?' + "partner="+PARTNER_CODE+"&code=" + str(self.code) + "&type=movie&format=json&filter=public&count=" + str(count) + '&sed=' + sed + '&sig=' + sig
+        
+    except UnicodeEncodeError:
+        return []
+    
+    e = requests.get(url, headers=headers).text
+    
+    d = json.loads(e)
+    feed = d["feed"]
+    
+    self.reviews = []
+    
+    if feed["totalResults"] > 0:
+      
+      if "review" in feed:
+        for rev in feed["review"]:
+          
+          review2 = Review(rev)
+          
+          self.reviews.append(review2)
+          
+    else:
+      self.reviews = []
+    return self.reviews
+

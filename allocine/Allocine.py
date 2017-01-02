@@ -64,28 +64,22 @@ def search_person(qry, count=1):
       persons = []
     return persons
 
-  
-#def getMovie(code, profile = DEFAULT_PROFILE):
-#    retval = Movie(code = code)
-#    retval.getInfo(profile)
-#    return retval
-
-#def getPerson(code, profile = DEFAULT_PROFILE):
-#    retval = Person(code = code)
-#    retval.getInfo(profile)
-#    return retval
-
-#def reviewList(movie_code):
-#    url = "http://api.allocine.fr/rest/v3/search"
-#    sed = str(date.today().strftime("%Y%m%d"))
-#    sig = hashlib.sha1(SECRET_KEY + "partner="+PARTNER_CODE+"&q="+qry.replace(" ","+")+"&format=json&filter=movie&count=" + str(count) + '&sed=' + sed).digest().encode("base64").replace("\n","").replace("+", "%2B").replace("=", "%3D")
-#    url += '?' + "partner="+PARTNER_CODE+"&q="+qry.replace(" ","+") + "&format=json&filter=movie&count=" + str(count) + '&sed=' + sed + '&sig=' + sig
-#    e = requests.get(url, headers=self.headers).text
-#    return [Review(**i) for i in d["feed"]["review"]]
 
 if __name__ == "__main__":
   if len(sys.argv) > 1:
     print "Searching...", sys.argv[1]
+
+    movies = search_movie(sys.argv[1])
+    
+    for m in movies:
+      print m.title, m.release, m.productionYear, m.directors, m.userRating
+      rev = m.get_reviewlist(3)
+      for r in rev:
+          print "*", unicode(r)
+    
+    sys.exit(0)
+    
+    print "-------------"
 
     
     person = search_person(sys.argv[1])
@@ -97,25 +91,17 @@ if __name__ == "__main__":
     
     sys.exit(0)
     
-    movies = search_movie(sys.argv[1])
-    
-    for m in movies:
-      print m.title, m.release, m.productionYear, m.directors, m.userRating
-    
-    sys.exit(0)
-    
-    print "-------------"
     
   
   p.getFilmography()
   for m in p.filmography:
     print("%s played in %s" % (p, m.movie))
   m = Movie(code=  32070)
-  #m.getInfo(profile = "large")
+  
 
   print("searching 'le parrain'")
   results = Allocine().search("the godfather")
   movie = results.movies[0]
   print("first result is %s" % movie)
-  #movie.getInfo()
+  
   print("synopsis of %s : %s" % (movie, movie.synopsisShort))

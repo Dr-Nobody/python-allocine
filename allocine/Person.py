@@ -1,4 +1,3 @@
-from AllocineObject import *
 import Movie
 import requests, base64, hashlib, json
 from datetime import date
@@ -7,14 +6,10 @@ from settings import *
 
 class Person:
   
-#  class Participation(object):
-#    def __init__(self, activity, movie):
-#      self.activity = activity
-#      self.movie = movie
 
   def __init__(self, code):
+    self.parameters = code
     self.code = code["code"]
-    #print code
     
     if "picture" in code:
       self.picture = code["picture"]["href"]
