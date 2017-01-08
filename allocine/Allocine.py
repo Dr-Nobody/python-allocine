@@ -13,14 +13,11 @@ def search_movie(qry, count=1):
     url = "http://api.allocine.fr/rest/v3/search"
     
     qry = qry.encode("latin1").replace("&","%26").replace("\xe9", "e").replace("\xe8", "e").replace("\xe7", "c").replace("\xea", "a").replace("\xc9", "e")
-
-    #print qry, qry.encode("hex")
     
     try:
         sed = str(date.today().strftime("%Y%m%d"))
         sig = hashlib.sha1(SECRET_KEY + "partner="+PARTNER_CODE+"&q="+qry.replace(" ","+")+"&format=json&filter=movie&count=" + str(count) + '&sed=' + sed).digest().encode("base64").replace("\n","").replace("+", "%2B").replace("=", "%3D").replace("/", "%2F")
         url += '?' + "partner="+PARTNER_CODE+"&q="+qry.replace(" ","+") + "&format=json&filter=movie&count=" + str(count) + '&sed=' + sed + '&sig=' + sig
-        #print url
     except UnicodeEncodeError:
         return []
     

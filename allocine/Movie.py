@@ -76,7 +76,16 @@ class Movie:
   def __unicode__(self):
     return self.title
 
-
+  
+  def __lt__(self, other):
+    if self.userRating != "<unknown>" and other.userRating != "<unknown>":
+      return float(self.userRating) < float(other.userRating)
+    elif self.userRating == "<unknown>" and other.userRating != "<unknown>":
+      return False
+    elif self.userRating != "<unknown>" and other.userRating == "<unknown>":
+      return True
+    else:
+      return False
 
   def get_reviewlist(self, count=10):
     headers = {"User-Agent":"Dalvik/1.6.0 (Linux; U; Android 4.2.2; Nexus 4 Build/JDQ39E)"}
