@@ -13,6 +13,7 @@ File Edit Options Buffers Tools Python Help
 
 example.py
 ==========
+```
 #!/usr/bin/env python                                                                                                                                                                                                                       
 
 from allocine.Allocine import *
@@ -26,4 +27,4 @@ if __name__ == "__main__":
     print "Annee:", movie.productionYear
     print "Note internautes:", movie.userRating, "/ 5.0"
     print "Acteurs:", movie.actors
-    
+```

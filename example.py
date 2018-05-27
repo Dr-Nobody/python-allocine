@@ -2,11 +2,8 @@
 
 from allocine.Allocine import *
 
-
-
 if __name__ == "__main__":
-    
-    
+        
     movies = search_movie("the godfather")
     movie = movies[0]
     
@@ -15,4 +12,4 @@ if __name__ == "__main__":
     print "Note internautes:", movie.userRating, "/ 5.0"
     print "Acteurs:", movie.actors
         
-    #print(movie.synopsisShort)
+    
