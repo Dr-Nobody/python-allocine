@@ -12,8 +12,7 @@ File Edit Options Buffers Tools Python Help
 
 
 example.py
-==========
-```
+```python
 #!/usr/bin/env python                                                                                                                                                                                                                       
 
 from allocine.Allocine import *
