@@ -7,10 +7,10 @@ setup(
     author_email='guillaume.thomas642@gmail.com',
     packages=['allocine'],
     scripts=[],
-    url='http://pypi.python.org/pypi/python-allocine/',
+    url='https://pypi.org/project/allocine-wrapper/',
     license='LICENSE.txt',
     description='Wrapper of Allocine API',
-    long_description=open('README.txt').read(),
+    long_description=open('README.md').read(),
     install_requires=[
     ],
 )
